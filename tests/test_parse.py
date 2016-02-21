@@ -545,6 +545,10 @@ class TestFidelityInvestmentStatement(TestCase):
         ofx = OfxParser.parse(open_file('fidelity.ofx'))
         self.assertEquals(len(ofx.security_list), 7)
 
+    def testHasBalance(self):
+        ofx = OfxParser.parse(open_file('fidelity.ofx'))
+        self.assertEquals(ofx.account.statement.balance, Decimal('18073.98'))
+
 
 class Test401InvestmentStatement(TestCase):
     def testTransferAggregate(self):

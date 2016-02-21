@@ -299,6 +299,7 @@ class InvestmentStatement(object):
     def __init__(self):
         self.positions = []
         self.transactions = []
+        self.balance = 0
         # Error tracking:
         self.discarded_entries = []
         self.warnings = []
@@ -632,6 +633,9 @@ class OfxParser(object):
         currency_tag = invstmtrs_ofx.find('curdef')
         if hasattr(currency_tag, "contents"):
             statement.currency = currency_tag.contents[0].strip().lower()
+        balance_tag = invstmtrs_ofx.find('availcash')
+        if hasattr(balance_tag, "contents"):
+            statement.balance = decimal.Decimal(balance_tag.contents[0].strip())
         invtranlist_ofx = invstmtrs_ofx.find('invtranlist')
         if (invtranlist_ofx is not None):
             tag = invtranlist_ofx.find('dtstart')
